@@ -118,6 +118,7 @@ sys_interpose(void)
 
     struct proc *p = myproc();
     p -> syscall_mask = mask;
+    strncpy(p -> allowed_path, path, sizeof(p -> allowed_path));
 
     return 0;
     

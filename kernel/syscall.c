@@ -142,6 +142,16 @@ syscall(void)
     // and store its return value in p->trapframe->a0
     if((p -> syscall_mask & (1 << num)) != 0)
     {
+        if(num == SYS_open || num == SYS_exec)
+        {
+            char pathbuf[128];
+            if (argstr(0, pathbuf, sizeof(pathbuf)) >= 0 &&
+                strncmp(pathbuf, p->allowed_path, sizeof(pathbuf)) == 0)
+                {
+                    p -> trapframe -> a0 = syscalls[num]();
+                    return;
+                }
+        }
         p -> trapframe -> a0 = -1;
         return;
     }
