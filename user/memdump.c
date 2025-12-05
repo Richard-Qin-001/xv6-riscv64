@@ -38,6 +38,11 @@ main(int argc, char *argv[])
     
     printf("Example 5:\n");
     memdump("sccccc", (char*) &example);
+    // printf("sizeof(struct sss) = %ld\n", sizeof(example));
+    // printf("offset num1 = %d\n", (int)((char *)&example.num1 - (char *)&example));
+    // printf("offset num2 = %d\n", (int)((char *)&example.num2 - (char *)&example));
+    // printf("offset byte = %d\n", (int)((char *)&example.byte - (char *)&example));
+    // printf("offset bytes = %d\n", (int)((char *)&example.bytes - (char *)&example));
   } else if(argc == 2){
     // format in argv[1], up to 512 bytes of data from standard input.
     char data[512];
@@ -61,5 +66,54 @@ void
 memdump(char *fmt, char *data)
 {
   // Your code here.
-
+  while (*fmt)
+  {
+    switch (*fmt)
+    {
+    case 'i':
+    {
+      int val = *(int *)data;
+      printf("%d\n", val);
+      data += sizeof(int);
+      break;
+    }
+    case 'p':
+    {
+      uint64 val = *(uint64 *)data;
+      printf("%lx\n", val);
+      data += sizeof(uint64);
+      break;
+    }
+    case 'h':
+    {
+        short val = *(short *)data;
+        printf("%d\n", val);
+        data += sizeof(short);
+        break;
+    }
+    case 'c':
+    {
+        char val = *data;
+        printf("%c\n", val);
+        data += sizeof(char);
+        break;
+    }
+    case 's':
+    {
+        char *str = *(char **)data;
+        printf("%s\n", str);
+        data += sizeof(char *);
+        break;
+    }
+    case 'S':
+    {
+        printf("%s\n", data);
+        data += strlen(data) + 1;
+        break;
+    }
+    default:
+      break;
+    }
+    fmt++;
+  }
 }
