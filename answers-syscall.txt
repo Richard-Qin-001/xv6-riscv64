@@ -1,0 +1,4 @@
+usertrap called syscall
+p->trapframe->a7 = 0x10, which represents SYS_fork, SYS_exit, SYS_wait, SYS_pipe, SYS_read, SYS_write, SYS_close, SYS_kill, SYS_exec, SYS_open and so on.
+The previous mode was user mode, because SPP = 0 in sstatus.
+
